@@ -377,7 +377,7 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
 }
     }
  
- private void loadKontakTable() {
+ private void loadKontakTable() { //method untuk memuat kontak
         String sql = "SELECT * FROM kontak";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
