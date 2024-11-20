@@ -264,7 +264,7 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
     private void ubahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahButtonActionPerformed
         ubahButton.addActionListener(new java.awt.event.ActionListener() {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-        updateContact();
+        updateContact(); //untuk mengubah kontak
     }
 });
     }//GEN-LAST:event_ubahButtonActionPerformed
