@@ -79,8 +79,18 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
         });
 
         hapusButton.setText("Hapus");
+        hapusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hapusButtonActionPerformed(evt);
+            }
+        });
 
         ulangButton.setText("Ulang");
+        ulangButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ulangButtonActionPerformed(evt);
+            }
+        });
 
         namaTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,8 +280,21 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
     }//GEN-LAST:event_ubahButtonActionPerformed
 
     private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
-        // TODO add your handling code here:
+        cariButton.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        searchContact(); // Memanggil metode pencarian kontak
+    }
+});
+
     }//GEN-LAST:event_cariButtonActionPerformed
+
+    private void ulangButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ulangButtonActionPerformed
+       resetForm();
+    }//GEN-LAST:event_ulangButtonActionPerformed
+
+    private void hapusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusButtonActionPerformed
+        deleteContact();
+    }//GEN-LAST:event_hapusButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,7 +351,7 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
     private javax.swing.JButton ulangButton;
     // End of variables declaration//GEN-END:variables
 
- private void tambahKontak() {
+ private void tambahKontak() { //method untuk menambahkan kontak
         String nama = namaTextField.getText();
         String nomorTelepon = nomorTextField.getText();
         String kategori = (String) kategoriCombo.getSelectedItem();
@@ -407,5 +430,72 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Gagal mengubah kontak: " + e.getMessage());
     }
 }
- 
+
+private void deleteContact() {
+    int selectedRow = daftarKontakTable.getSelectedRow(); // Dapatkan baris yang dipilih
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih kontak yang ingin dihapus!");
+        return;
+    }
+
+    int id = Integer.parseInt(daftarKontakTable.getValueAt(selectedRow, 0).toString()); // Ambil ID dari baris
+
+    String sql = "DELETE FROM kontak WHERE id = ?";
+    int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus kontak ini?", 
+                                                "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+    if (confirm == JOptionPane.YES_OPTION) {
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Kontak berhasil dihapus!");
+            loadKontakTable(); // Memuat ulang data di tabel
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal menghapus kontak: " + e.getMessage());
+        }
+    }
+}
+
+private void resetForm() {
+    namaTextField.setText("");
+    nomorTextField.setText("");
+    kategoriCombo.setSelectedIndex(0); // Mengembalikan ke pilihan pertama
+}
+
+private void searchContact() {
+    String keyword = cariTextField.getText(); // Ambil kata kunci dari input
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Masukkan kata kunci untuk mencari kontak!");
+        return;
+    }
+
+    String sql = "SELECT * FROM kontak WHERE nama LIKE ? OR kategori LIKE ?"; // Query pencarian
+    try (Connection conn = DatabaseConnection.connect();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, "%" + keyword + "%"); // Cari nama yang mengandung keyword
+        pstmt.setString(2, "%" + keyword + "%"); // Cari kategori yang mengandung keyword
+        try (ResultSet rs = pstmt.executeQuery()) {
+            // Mengosongkan model JTable
+            DefaultTableModel model = (DefaultTableModel) daftarKontakTable.getModel();
+            model.setRowCount(0);
+
+            // Menambahkan hasil pencarian ke JTable
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getString("nama"),
+                    rs.getString("nomor_telepon"),
+                    rs.getString("kategori")
+                });
+            }
+
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Kontak tidak ditemukan!");
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Gagal mencari kontak: " + e.getMessage());
+    }
+}
+
 }
