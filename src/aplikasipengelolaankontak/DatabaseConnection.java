@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author ASUS
  */
-public class DatabaseConnection {
+public class DatabaseConnection { //koneksi ke database
 public static Connection connect() {
     Connection conn = null;
     try {
