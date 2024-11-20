@@ -251,7 +251,7 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
         tambahButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tambahKontak();
-                loadKontakTable();
+                loadKontakTable(); //untuk menambahkan kontak
             }
         });
         
