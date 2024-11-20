@@ -15,7 +15,7 @@ import java.sql.Statement;
  * @author ASUS
  */
 public class KontakCRUD {
-  public static void addContact(String nama, String nomorTelepon, String kategori) {
+  public static void addContact(String nama, String nomorTelepon, String kategori) { //menambahkan kontak
         String sql = "INSERT INTO kontak(nama, nomor_telepon, kategori) VALUES(?, ?, ?)";
         
         try (Connection conn = DatabaseConnection.connect();
@@ -30,7 +30,7 @@ public class KontakCRUD {
         }
     }
   
-  public static void loadContacts(DefaultTableModel model) {
+  public static void loadContacts(DefaultTableModel model) { //memuat kontak
         String sql = "SELECT * FROM kontak";
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement();
@@ -49,7 +49,7 @@ public class KontakCRUD {
         }
     }
   
-  public static void updateContact(int id, String nama, String nomorTelepon, String kategori) {
+  public static void updateContact(int id, String nama, String nomorTelepon, String kategori) { //mengupdate kontak
     String sql = "UPDATE kontak SET nama = ?, nomor_telepon = ?, kategori = ? WHERE id = ?";
     try (Connection conn = DatabaseConnection.connect();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -64,7 +64,7 @@ public class KontakCRUD {
     }
 }
   
-public static void deleteContact(int id) {
+public static void deleteContact(int id) { //menghapus kontak
     String sql = "DELETE FROM kontak WHERE id = ?";
     try (Connection conn = DatabaseConnection.connect();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
