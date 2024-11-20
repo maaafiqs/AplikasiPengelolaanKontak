@@ -431,7 +431,7 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
     }
 }
 
-private void deleteContact() {
+private void deleteContact() { //method untuk menghapus kontak
     int selectedRow = daftarKontakTable.getSelectedRow(); // Dapatkan baris yang dipilih
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Pilih kontak yang ingin dihapus!");
