@@ -462,7 +462,7 @@ private void resetForm() { //method untuk mereset inputan
     kategoriCombo.setSelectedIndex(0); // Mengembalikan ke pilihan pertama
 }
 
-private void searchContact() {
+private void searchContact() { //method untuk mencari kontak
     String keyword = cariTextField.getText(); // Ambil kata kunci dari input
     if (keyword.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Masukkan kata kunci untuk mencari kontak!");
