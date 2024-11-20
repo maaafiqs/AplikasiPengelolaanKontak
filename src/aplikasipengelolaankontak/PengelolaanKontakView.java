@@ -456,7 +456,7 @@ private void deleteContact() { //method untuk menghapus kontak
     }
 }
 
-private void resetForm() {
+private void resetForm() { //method untuk mereset inputan
     namaTextField.setText("");
     nomorTextField.setText("");
     kategoriCombo.setSelectedIndex(0); // Mengembalikan ke pilihan pertama
