@@ -401,7 +401,7 @@ public class PengelolaanKontakView extends javax.swing.JFrame {
         }
     }
 
- public void updateContact() {
+ public void updateContact() { //method untuk mengubah kontak
     int selectedRow = daftarKontakTable.getSelectedRow();  // Dapatkan baris yang dipilih di JTable
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Pilih kontak yang ingin diubah!");
